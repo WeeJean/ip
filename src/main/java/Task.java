@@ -1,6 +1,6 @@
 public class Task {
     private boolean isDone;
-    private String taskName;
+    private final String taskName;
 
     public Task(String taskName) {
         this.isDone = false;
@@ -23,6 +23,11 @@ public class Task {
         }
     }
 
+    public String getTaskName() {
+        return taskName;
+    }
+
+    @Override
     public String toString() {
         return getIsdone() + " " + taskName;
     }
