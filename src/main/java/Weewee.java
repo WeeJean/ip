@@ -2,6 +2,22 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Weewee {
+
+    public enum Command {
+        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, UNIDENTIFIED
+    }
+
+    public static Command getCommand(String input) {
+        if (input.equals("list")) return Command.LIST;
+        if (input.startsWith("mark")) return Command.MARK;
+        if (input.startsWith("unmark")) return Command.UNMARK;
+        if (input.startsWith("delete")) return Command.DELETE;
+        if (input.startsWith("todo")) return Command.TODO;
+        if (input.startsWith("deadline")) return Command.DEADLINE;
+        if (input.startsWith("event")) return Command.EVENT;
+        return Command.UNIDENTIFIED;
+    }
+
     public static void main(String[] args) {
         String greet = "Hello! I'm Weewee\n" + "What can I do for you?";
         String bye = "Bye. Hope to see you again soon! smoochsmooch <3";
@@ -14,90 +30,90 @@ public class Weewee {
 
         while(!input.equals("bye")) {
             try{
-                //if input in command: list
-                if (input.equals("list")) {
-                    if (tasks.isEmpty()) {
-                        throw new WeeweeException("Your list is empty UwU!\n");
-                    }
-                    System.out.println("Here are the tasks in your list:\n");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.printf("%d. %s\n", i + 1, tasks.get(i));
-                    }
-                    input = sc.nextLine();
+                Command cmd = getCommand(input);
+                switch (cmd) {
+                    //if input in command: list
+                    case LIST:
+                        if (tasks.isEmpty()) {
+                            throw new WeeweeException("Your list is empty UwU!\n");
+                        }
+                        System.out.println("Here are the tasks in your list:\n");
+                        for (int i = 0; i < tasks.size(); i++) {
+                            System.out.printf("%d. %s\n", i + 1, tasks.get(i));
+                        }
+                        input = sc.nextLine();
+                        break;
 
-                    //if input in command: mark
-                } else if (input.startsWith("mark")) {
-                    //method split inspired by https://www.geeksforgeeks.org/java/split-string-java-examples/
-                    String[] splitinput = input.split(" ");
-                    String numberPart = splitinput[1];
-                    int number = Integer.parseInt(numberPart);
-                    if (splitinput.length != 2 || number < 1 || number > tasks.size()) {
-                        throw new WeeweeException("Baka only valid task number is allowed!\n");
-                    }
-                    System.out.println("Nice! I've marked this task as done:\n");
-                    tasks.get(number - 1).setDone();
-                    System.out.println(tasks.get(number - 1).toString());
-                    input = sc.nextLine();
+                    case MARK:
+                        String[] marksplit = input.split(" ");
+                        int marknumber = Integer.parseInt(marksplit[1]);
+                        if (marksplit.length != 2 || marknumber < 1 || marknumber > tasks.size()) {
+                            throw new WeeweeException("Baka only valid task number is allowed!\n");
+                        }
+                        System.out.println("Nice! I've marked this task as done:\n");
+                        tasks.get(marknumber - 1).setDone();
+                        System.out.println(tasks.get(marknumber - 1).toString());
+                        input = sc.nextLine();
+                        break;
 
-                    //if input in command: unmark
-                } else if (input.startsWith("unmark")) {
-                    String[] splitinput = input.split(" ");
-                    String numberPart = splitinput[1];
-                    int number = Integer.parseInt(numberPart);
-                    if (splitinput.length != 2 || number < 1 || number > tasks.size()) {
-                        throw new WeeweeException("Baka only valid task number is allowed!\n");
-                    }
-                    System.out.println("OK, I've marked this task as not done yet:\n");
-                    tasks.get(number - 1).setUndone();
-                    System.out.println(tasks.get(number - 1).toString());
-                    input = sc.nextLine();
+                    case UNMARK:
+                        String[] unmarksplit = input.split(" ");
+                        int unmarknumber = Integer.parseInt(unmarksplit[1]);
+                        if (unmarksplit.length != 2 || unmarknumber < 1 || unmarknumber > tasks.size()) {
+                            throw new WeeweeException("Baka only valid task number is allowed!\n");
+                        }
+                        System.out.println("OK, I've marked this task as not done yet:\n");
+                        tasks.get(unmarknumber - 1).setUndone();
+                        System.out.println(tasks.get(unmarknumber - 1).toString());
+                        input = sc.nextLine();
+                        break;
 
-                } else if (input.startsWith("delete")) {
-                    String[] splitinput = input.split(" ");
-                    String numberPart = splitinput[1];
-                    int number = Integer.parseInt(numberPart);
-                    if (splitinput.length != 2 || number < 1 || number > tasks.size()) {
-                        throw new WeeweeException("Baka only valid task number is allowed!\n");
-                    }
-                    System.out.printf("Noted. I've removed this task: \n%s \nNow you have %d tasks in the list.\n", tasks.get(number - 1).toString(), tasks.size() - 1);
-                    tasks.remove(number - 1);
-                    input = sc.nextLine();
+                    case DELETE:
+                        String[] deletesplit = input.split(" ");
+                        int deletenumber = Integer.parseInt(deletesplit[1]);
+                        if (deletesplit.length != 2 || deletenumber < 1 || deletenumber > tasks.size()) {
+                            throw new WeeweeException("Baka only valid task number is allowed!\n");
+                        }
+                        System.out.printf("Noted. I've removed this task: \n%s \nNow you have %d tasks in the list.\n", tasks.get(deletenumber - 1).toString(), tasks.size() - 1);
+                        tasks.remove(deletenumber - 1);
+                        input = sc.nextLine();
+                        break;
 
-                    //if input is task
-                } else {
-                    if (input.startsWith("todo")) {
-                        String[] splitinput = input.split("todo ");
-                        if (splitinput.length < 2) {
+                    case TODO:
+                        String[] todosplit = input.split("todo ");
+                        if (todosplit.length < 2) {
                             throw new WeeweeException("toDo format is wrong baka >v< ! e.g todo <activity>\n");
                         }
-                        Task newTask = new ToDo(splitinput[1]);
-                        tasks.add(newTask);
-                        System.out.printf("Got it. I've added this task: \n%s \nNow you have %d tasks in the list.\n", newTask.toString(), tasks.size());
+                        Task todo = new ToDo(todosplit[1]);
+                        tasks.add(todo);
+                        System.out.printf("Got it. I've added this task: \n%s \nNow you have %d tasks in the list.\n", todo.toString(), tasks.size());
                         input = sc.nextLine();
+                        break;
 
-                    } else if (input.startsWith("deadline")) {
-                        String[] splitinput = input.split("deadline | /by ");
-                        if (splitinput.length < 3) {
+                    case DEADLINE:
+                        String[] deadlinesplit = input.split("deadline | /by ");
+                        if (deadlinesplit.length < 3) {
                             throw new WeeweeException("Deadline format is wrong baka >v< ! e.g deadline <activity> /by <date>\n");
                         }
-                        Task newTask = new Deadline(splitinput[1], splitinput[2]);
-                        tasks.add(newTask);
-                        System.out.printf("Got it. I've added this task: \n%s \nNow you have %d tasks in the list.\n", newTask.toString(), tasks.size());
+                        Task deadline = new Deadline(deadlinesplit[1], deadlinesplit[2]);
+                        tasks.add(deadline);
+                        System.out.printf("Got it. I've added this task: \n%s \nNow you have %d tasks in the list.\n", deadline.toString(), tasks.size());
                         input = sc.nextLine();
+                        break;
 
-                    } else if (input.startsWith("event")) {
-                        String[] splitinput = input.split("event | /from | /to ");
-                        if (splitinput.length < 4) {
+                    case EVENT:
+                        String[] eventsplit = input.split("event | /from | /to ");
+                        if (eventsplit.length < 4) {
                             throw new WeeweeException("Event format is wrong baka >v<! e.g event <activity> /from <date> /to <date>\n");
                         }
-                        Task newTask = new Event(splitinput[1], splitinput[2], splitinput[3]);
-                        tasks.add(newTask);
-                        System.out.printf("Got it. I've added this task: \n%s \nNow you have %d tasks in the list.\n", newTask.toString(), tasks.size());
+                        Task event = new Event(eventsplit[1], eventsplit[2], eventsplit[3]);
+                        tasks.add(event);
+                        System.out.printf("Got it. I've added this task: \n%s \nNow you have %d tasks in the list.\n", event.toString(), tasks.size());
                         input = sc.nextLine();
-                    } else {
-                        //if input is not a command: throw exception
+                        break;
+
+                    case UNIDENTIFIED:
                         throw new WeeweeException("Sorry, I don’t understand what that means </3\n");
-                    }
                 }
             } catch (WeeweeException e) {
                 System.out.println(" " + e.getMessage());
