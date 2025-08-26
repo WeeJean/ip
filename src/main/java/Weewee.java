@@ -20,12 +20,11 @@ public class Weewee {
 
     public static void main(String[] args) {
         Storage storage = new Storage("./data/weewee.txt");
-        ArrayList<Task> tasks = storage.load();
-
         String greet = "Hello! I'm Weewee\n" + "What can I do for you?";
         String bye = "Bye. Hope to see you again soon! smoochsmooch <3";
 
         System.out.println(greet + "\n");
+        ArrayList<Task> tasks = storage.load();
 
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();
@@ -105,7 +104,7 @@ public class Weewee {
                     case DEADLINE:
                         String[] deadlinesplit = input.split("deadline | /by ");
                         if (deadlinesplit.length < 3) {
-                            throw new WeeweeException("Deadline format is wrong baka >v< ! e.g deadline <activity> /by <date>\n");
+                            throw new WeeweeException("Deadline format is wrong baka >v< ! e.g deadline <activity> /by <YYYY-MM-DD HHmm>\n");
                         }
                         Task deadline = new Deadline(deadlinesplit[1].trim(), deadlinesplit[2].trim());
                         tasks.add(deadline);
@@ -118,7 +117,7 @@ public class Weewee {
                     case EVENT:
                         String[] eventsplit = input.split("event | /from | /to ");
                         if (eventsplit.length < 4) {
-                            throw new WeeweeException("Event format is wrong baka >v<! e.g event <activity> /from <date> /to <date>\n");
+                            throw new WeeweeException("Event format is wrong baka >v<! e.g event <activity> /from <YYYY-MM-DD HHmm> /to <YYYY-MM-DD HHmm>\n");
                         }
                         Task event = new Event(eventsplit[1].trim(), eventsplit[2].trim(), eventsplit[3].trim());
                         tasks.add(event);

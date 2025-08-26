@@ -21,7 +21,14 @@ public class Storage {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             while ((line = br.readLine()) != null) {
-                tasks.add(parseTask(line));
+                Task t = parseTask(line);
+                if (t == null) {
+                    // corrupted line detected(null in the array) = discard entire file
+                    System.out.println("Save file corrupted, starting fresh.");
+                    br.close();
+                    return new ArrayList<>();
+                }
+                tasks.add(t);
             }
             br.close();
         } catch (IOException e) {
@@ -30,7 +37,7 @@ public class Storage {
         return tasks;
     }
 
-    //everytime tasks changes, data file is rewrote with the new task array
+    //everytime tasks changes, data file is rewrote with the new task array after bye
     public void save(ArrayList<Task> tasks) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
@@ -47,19 +54,24 @@ public class Storage {
     //read the task from the saved file
     private Task parseTask(String line) {
         String[] parts = line.split(" \\| ");
-        switch (parts[0]) {
-            case "T":
-                ToDo todo = new ToDo(parts[2]);
-                if (parts[1].equals("1")) todo.setDone();
-                return todo;
-            case "D":
-                Deadline dl = new Deadline(parts[2], parts[3]);
-                if (parts[1].equals("1")) dl.setDone();
-                return dl;
-            case "E":
-                Event ev = new Event(parts[2], parts[3], parts[4]);
-                if (parts[1].equals("1")) ev.setDone();
-                return ev;
+        try {
+            switch (parts[0]) {
+                case "T":
+                    ToDo todo = new ToDo(parts[2]);
+                    if (parts[1].equals("1")) todo.setDone();
+                    return todo;
+                case "D":
+                    Deadline dl = new Deadline(parts[2], parts[3]);
+                    if (parts[1].equals("1")) dl.setDone();
+                    return dl;
+                case "E":
+                    Event ev = new Event(parts[2], parts[3], parts[4]);
+                    if (parts[1].equals("1")) ev.setDone();
+                    return ev;
+            }
+        } catch (WeeweeException e) {
+            System.out.println("Save file corrupted (bad date/time): " + e.getMessage());
+            return null;
         }
         return null;
     }
@@ -70,10 +82,10 @@ public class Storage {
             return "T | " + (t.getIsdone().equals("[X]") ? "1" : "0") + " | " + t.getTaskName();
         } else if (t instanceof Deadline) {
             Deadline d = (Deadline) t;
-            return "D | " + (d.getIsdone().equals("[X]") ? "1" : "0") + " | " + d.getTaskName() + " | " + d.getDate();
+            return "D | " + (d.getIsdone().equals("[X]") ? "1" : "0") + " | " + d.getTaskName() + " | " + d.getRawDate();
         } else if (t instanceof Event) {
             Event e = (Event) t;
-            return "E | " + (e.getIsdone().equals("[X]") ? "1" : "0") + " | " + e.getTaskName() + " | " + e.getStart() + " | " + e.getEnd();
+            return "E | " + (e.getIsdone().equals("[X]") ? "1" : "0") + " | " + e.getTaskName() + " | " + e.getRawStart() + " | " + e.getRawEnd();
         }
         return "";
     }

@@ -1,18 +1,31 @@
-public class Deadline extends Task{
-    private String date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-    public Deadline(String taskName, String date) {
+public class Deadline extends Task{
+    private final LocalDateTime dateTime;
+
+    public Deadline(String taskName, String dateTime) throws WeeweeException {
         super(taskName);
-        this.date = date;
+        try {
+            this.dateTime = DateParser.dateParse(dateTime);  // may throw DateTimeParseException
+        } catch (Exception e) {
+            throw new WeeweeException("Deadline date/time format is wrong baka >v<! Use YYYY-MM-DD HHmm");
+        }
     }
 
+    //nice output
     public String getDate() {
-        return this.date;
+        return DateParser.displayFormat(this.dateTime);
+    }
+
+    //strict input for save
+    public String getRawDate() {
+        return DateParser.formatForSave(dateTime); // saving
     }
 
     @Override
     public String toString() {
-        String s = String.format("[D]%s %s (by: %s)", this.getIsdone(), super.getTaskName(), this.date);
+        String s = String.format("[D]%s %s (by: %s)", this.getIsdone(), super.getTaskName(), getDate());
         return s;
     }
 }
