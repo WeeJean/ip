@@ -20,12 +20,11 @@ public class Weewee {
 
     public static void main(String[] args) {
         Storage storage = new Storage("./data/weewee.txt");
-        ArrayList<Task> tasks = storage.load();
-
         String greet = "Hello! I'm Weewee\n" + "What can I do for you?";
         String bye = "Bye. Hope to see you again soon! smoochsmooch <3";
 
         System.out.println(greet + "\n");
+        ArrayList<Task> tasks = storage.load();
 
         Scanner sc = new Scanner(System.in);
         String input = sc.nextLine();

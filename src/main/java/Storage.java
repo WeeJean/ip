@@ -21,7 +21,14 @@ public class Storage {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line;
             while ((line = br.readLine()) != null) {
-                tasks.add(parseTask(line));
+                Task t = parseTask(line);
+                if (t == null) {
+                    // corrupted line detected = discard entire file
+                    System.out.println("Save file corrupted, starting fresh.");
+                    br.close();
+                    return new ArrayList<>();
+                }
+                tasks.add(t);
             }
             br.close();
         } catch (IOException e) {
