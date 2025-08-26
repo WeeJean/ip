@@ -8,6 +8,14 @@ public class Event extends Task{
         this.end = end;
     }
 
+    public String getStart() {
+        return this.start;
+    }
+
+    public String getEnd() {
+        return this.end;
+    }
+
     @Override
     public String toString() {
         String s = String.format("[E]%s %s (from: %s to: %s)", this.getIsdone(), super.getTaskName(), this.start, this.end);

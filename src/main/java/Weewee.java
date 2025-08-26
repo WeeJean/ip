@@ -19,9 +19,11 @@ public class Weewee {
      }
 
     public static void main(String[] args) {
+        Storage storage = new Storage("./data/weewee.txt");
+        ArrayList<Task> tasks = storage.load();
+
         String greet = "Hello! I'm Weewee\n" + "What can I do for you?";
         String bye = "Bye. Hope to see you again soon! smoochsmooch <3";
-        ArrayList<Task> tasks = new ArrayList<>(100);
 
         System.out.println(greet + "\n");
 
@@ -42,6 +44,7 @@ public class Weewee {
                             System.out.printf("%d. %s\n", i + 1, tasks.get(i));
                         }
                         System.out.println();
+
                         input = sc.nextLine();
                         break;
 
@@ -55,6 +58,7 @@ public class Weewee {
                         tasks.get(marknumber - 1).setDone();
                         System.out.println(tasks.get(marknumber - 1).toString());
                         System.out.println();
+
                         input = sc.nextLine();
                         break;
 
@@ -68,6 +72,7 @@ public class Weewee {
                         tasks.get(unmarknumber - 1).setUndone();
                         System.out.println(tasks.get(unmarknumber - 1).toString());
                         System.out.println();
+
                         input = sc.nextLine();
                         break;
 
@@ -80,6 +85,7 @@ public class Weewee {
                         System.out.printf("Noted. I've removed this task:\n%s\nNow you have %d tasks in the list.\n", tasks.get(deletenumber - 1).toString(), tasks.size() - 1);
                         System.out.println();
                         tasks.remove(deletenumber - 1);
+
                         input = sc.nextLine();
                         break;
 
@@ -90,8 +96,9 @@ public class Weewee {
                         }
                         Task todo = new ToDo(todosplit[1].trim());
                         tasks.add(todo);
-                        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", todo.toString(), tasks.size());
+                        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", todo, tasks.size());
                         System.out.println();
+
                         input = sc.nextLine();
                         break;
 
@@ -102,8 +109,9 @@ public class Weewee {
                         }
                         Task deadline = new Deadline(deadlinesplit[1].trim(), deadlinesplit[2].trim());
                         tasks.add(deadline);
-                        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", deadline.toString(), tasks.size());
+                        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", deadline, tasks.size());
                         System.out.println();
+
                         input = sc.nextLine();
                         break;
 
@@ -114,8 +122,9 @@ public class Weewee {
                         }
                         Task event = new Event(eventsplit[1].trim(), eventsplit[2].trim(), eventsplit[3].trim());
                         tasks.add(event);
-                        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", event.toString(), tasks.size());
+                        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", event, tasks.size());
                         System.out.println();
+
                         input = sc.nextLine();
                         break;
 
@@ -130,6 +139,7 @@ public class Weewee {
                 input = sc.nextLine();
             }
         }
+        storage.save(tasks);
         System.out.println(bye);
     }
 }
