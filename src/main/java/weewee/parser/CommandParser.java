@@ -100,7 +100,7 @@ public class CommandParser {
                 break;
 
             case UNIDENTIFIED:
-                throw new WeeweeException("Sorry, I don’t understand what that means </3\n");
+                throw new WeeweeException("Sorry, I don't understand what that means </3\n");
         }
     }
 }
