@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Weewee {
 
@@ -20,14 +19,11 @@ public class Weewee {
 
     public static void main(String[] args) {
         Storage storage = new Storage("./data/weewee.txt");
-        String greet = "Hello! I'm Weewee\n" + "What can I do for you?";
-        String bye = "Bye. Hope to see you again soon! smoochsmooch <3";
-
-        System.out.println(greet + "\n");
         ArrayList<Task> tasks = storage.load();
 
-        Scanner sc = new Scanner(System.in);
-        String input = sc.nextLine();
+        Ui ui = new Ui();
+        ui.showGreet();
+        String input = ui.readNextCommand();
 
         while(!input.equals("bye")) {
             try{
@@ -35,16 +31,9 @@ public class Weewee {
                 switch (cmd) {
                     //if input in command: list
                     case LIST:
-                        if (tasks.isEmpty()) {
-                            throw new WeeweeException("Your list is empty UwU!\n");
-                        }
-                        System.out.println("Here are the tasks in your list:\n");
-                        for (int i = 0; i < tasks.size(); i++) {
-                            System.out.printf("%d. %s\n", i + 1, tasks.get(i));
-                        }
-                        System.out.println();
+                        ui.showList(tasks);
 
-                        input = sc.nextLine();
+                        input = ui.readNextCommand();
                         break;
 
                     case MARK:
@@ -53,12 +42,10 @@ public class Weewee {
                         if (marksplit.length != 2 || marknumber < 1 || marknumber > tasks.size()) {
                             throw new WeeweeException("Baka only valid task number is allowed!\n");
                         }
-                        System.out.println("Nice! I've marked this task as done:\n");
-                        tasks.get(marknumber - 1).setDone();
-                        System.out.println(tasks.get(marknumber - 1).toString());
-                        System.out.println();
 
-                        input = sc.nextLine();
+                        tasks.get(marknumber - 1).setDone();
+                        ui.showMark(tasks.get(marknumber - 1));
+                        input = ui.readNextCommand();
                         break;
 
                     case UNMARK:
@@ -67,12 +54,10 @@ public class Weewee {
                         if (unmarksplit.length != 2 || unmarknumber < 1 || unmarknumber > tasks.size()) {
                             throw new WeeweeException("Baka only valid task number is allowed!\n");
                         }
-                        System.out.println("OK, I've marked this task as not done yet:\n");
-                        tasks.get(unmarknumber - 1).setUndone();
-                        System.out.println(tasks.get(unmarknumber - 1).toString());
-                        System.out.println();
 
-                        input = sc.nextLine();
+                        tasks.get(unmarknumber - 1).setUndone();
+                        ui.showUnmark(tasks.get(unmarknumber - 1));
+                        input = ui.readNextCommand();
                         break;
 
                     case DELETE:
@@ -81,11 +66,10 @@ public class Weewee {
                         if (deletesplit.length != 2 || deletenumber < 1 || deletenumber > tasks.size()) {
                             throw new WeeweeException("Baka only valid task number is allowed!\n");
                         }
-                        System.out.printf("Noted. I've removed this task:\n%s\nNow you have %d tasks in the list.\n", tasks.get(deletenumber - 1).toString(), tasks.size() - 1);
-                        System.out.println();
-                        tasks.remove(deletenumber - 1);
 
-                        input = sc.nextLine();
+                        tasks.remove(deletenumber - 1);
+                        ui.showDelete(tasks.get(deletenumber - 1), tasks);
+                        input = ui.readNextCommand();
                         break;
 
                     case TODO:
@@ -93,12 +77,11 @@ public class Weewee {
                         if (todosplit.length < 2) {
                             throw new WeeweeException("toDo format is wrong baka >v< ! e.g todo <activity>\n");
                         }
+
                         Task todo = new ToDo(todosplit[1].trim());
                         tasks.add(todo);
-                        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", todo, tasks.size());
-                        System.out.println();
-
-                        input = sc.nextLine();
+                        ui.showTodo(todo, tasks);
+                        input = ui.readNextCommand();
                         break;
 
                     case DEADLINE:
@@ -106,12 +89,11 @@ public class Weewee {
                         if (deadlinesplit.length < 3) {
                             throw new WeeweeException("Deadline format is wrong baka >v< ! e.g deadline <activity> /by <YYYY-MM-DD HHmm>\n");
                         }
+
                         Task deadline = new Deadline(deadlinesplit[1].trim(), deadlinesplit[2].trim());
                         tasks.add(deadline);
-                        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", deadline, tasks.size());
-                        System.out.println();
-
-                        input = sc.nextLine();
+                        ui.showDeadline(deadline, tasks);
+                        input = ui.readNextCommand();
                         break;
 
                     case EVENT:
@@ -119,12 +101,11 @@ public class Weewee {
                         if (eventsplit.length < 4) {
                             throw new WeeweeException("Event format is wrong baka >v<! e.g event <activity> /from <YYYY-MM-DD HHmm> /to <YYYY-MM-DD HHmm>\n");
                         }
+
                         Task event = new Event(eventsplit[1].trim(), eventsplit[2].trim(), eventsplit[3].trim());
                         tasks.add(event);
-                        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", event, tasks.size());
-                        System.out.println();
-
-                        input = sc.nextLine();
+                        ui.showEvent(event, tasks);
+                        input = ui.readNextCommand();
                         break;
 
                     case UNIDENTIFIED:
@@ -132,13 +113,13 @@ public class Weewee {
                 }
             } catch (WeeweeException e) {
                 System.out.println(e.getMessage());
-                input = sc.nextLine();
+                input = ui.readNextCommand();
             } catch (Exception e) {
                 System.out.println("OOPS Something went wrong: " + e.getMessage());
-                input = sc.nextLine();
+                input = ui.readNextCommand();
             }
         }
         storage.save(tasks);
-        System.out.println(bye);
+        ui.showBye();
     }
 }
