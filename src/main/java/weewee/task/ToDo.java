@@ -1,4 +1,6 @@
-public class ToDo extends Task{
+package weewee.task;
+
+public class ToDo extends Task {
 
     public ToDo(String taskName) {
         super(taskName);

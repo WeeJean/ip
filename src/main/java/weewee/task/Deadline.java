@@ -1,6 +1,10 @@
+package weewee.task;
+
+import weewee.exception.WeeweeException;
+import weewee.parser.DateParser;
 import java.time.LocalDateTime;
 
-public class Deadline extends Task{
+public class Deadline extends Task {
     private final LocalDateTime dateTime;
 
     public Deadline(String taskName, String dateTime) throws WeeweeException {

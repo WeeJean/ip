@@ -1,3 +1,13 @@
+package weewee.parser;
+
+import weewee.exception.WeeweeException;
+import weewee.task.Event;
+import weewee.task.Task;
+import weewee.task.TaskList;
+import weewee.task.ToDo;
+import weewee.task.Deadline;
+import weewee.ui.Ui;
+
 public class CommandParser {
 
     public enum Command {
