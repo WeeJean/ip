@@ -1,8 +1,8 @@
 import java.time.LocalDateTime;
 
 public class Event extends Task{
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private final LocalDateTime start;
+    private final LocalDateTime end;
 
     public Event(String taskName, String start, String end) throws WeeweeException {
         super(taskName);
