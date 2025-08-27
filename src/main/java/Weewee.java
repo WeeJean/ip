@@ -19,7 +19,7 @@ public class Weewee {
 
     public static void main(String[] args) {
         Storage storage = new Storage("./data/weewee.txt");
-        ArrayList<Task> tasks = storage.load();
+        TaskList tasks = storage.load();
 
         Ui ui = new Ui();
         ui.showGreet();

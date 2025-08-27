@@ -16,7 +16,7 @@ public class Ui {
         return sc.nextLine();
     }
 
-    public void showList(ArrayList<Task> tasks) {
+    public void showList(TaskList tasks) {
         if (tasks.isEmpty()) {
             System.out.println("Your list is empty UwU!\n");
             return;
@@ -40,22 +40,22 @@ public class Ui {
         System.out.println();
     }
 
-    public void showDelete(Task task, ArrayList<Task> tasks) {
+    public void showDelete(Task task, TaskList tasks) {
         System.out.printf("Noted. I've removed this task:\n%s\nNow you have %d tasks in the list.\n", task, tasks.size());
         System.out.println();
     }
 
-    public void showTodo(Task task, ArrayList<Task> tasks) {
+    public void showTodo(Task task, TaskList tasks) {
         System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", task, tasks.size());
         System.out.println();
     }
 
-    public void showDeadline(Task task, ArrayList<Task> tasks) {
+    public void showDeadline(Task task, TaskList tasks) {
         System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", task, tasks.size());
         System.out.println();
     }
 
-    public void showEvent(Task task, ArrayList<Task> tasks) {
+    public void showEvent(Task task, TaskList tasks) {
         System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", task, tasks.size());
         System.out.println();
     }

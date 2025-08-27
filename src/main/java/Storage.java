@@ -9,13 +9,13 @@ public class Storage {
     }
 
     // opening up data into array at the start of the chatbot
-    public ArrayList<Task> load() {
+    public TaskList load() {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
             if (!file.exists()) {
                 file.getParentFile().mkdirs(); // create ./data if missing
                 file.createNewFile();          // create empty file
-                return tasks;
+                return new TaskList(tasks);
             }
 
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -26,7 +26,7 @@ public class Storage {
                     // corrupted line detected(null in the array) = discard entire file
                     System.out.println("Save file corrupted, starting fresh.");
                     br.close();
-                    return new ArrayList<>();
+                    return new TaskList(new ArrayList<>());
                 }
                 tasks.add(t);
             }
@@ -34,14 +34,14 @@ public class Storage {
         } catch (IOException e) {
             System.out.println("OOPS couldn't load tasks: " + e.getMessage());
         }
-        return tasks;
+        return new TaskList(tasks);
     }
 
     //everytime tasks changes, data file is rewrote with the new task array after bye
-    public void save(ArrayList<Task> tasks) {
+    public void save(TaskList tasks) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-            for (Task t : tasks) {
+            for (Task t : tasks.getAll()) {
                 bw.write(formatTask(t));
                 bw.newLine();
             }
