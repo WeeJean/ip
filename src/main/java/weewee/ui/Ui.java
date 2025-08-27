@@ -1,5 +1,9 @@
+package weewee.ui;
+
+import weewee.task.TaskList;
+import weewee.task.Task;
+
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Ui {
     private final Scanner sc = new Scanner(System.in);

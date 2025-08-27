@@ -1,3 +1,12 @@
+package weewee.storage;
+
+import weewee.exception.WeeweeException;
+import weewee.task.Task;
+import weewee.task.TaskList;
+import weewee.task.ToDo;
+import weewee.task.Deadline;
+import weewee.task.Event;
+
 import java.io.*;
 import java.util.ArrayList;
 

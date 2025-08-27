@@ -1,3 +1,11 @@
+package weewee;
+
+import weewee.storage.Storage;
+import weewee.task.TaskList;
+import weewee.ui.Ui;
+import weewee.parser.CommandParser;
+import weewee.exception.WeeweeException;
+
 public class Weewee {
     private final Storage storage;
     private final TaskList tasks;
