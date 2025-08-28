@@ -1,7 +1,5 @@
 package weewee.task;
 
-import weewee.exception.WeeweeException;
-
 /** Represents a Task with name and done status. */
 public class Task {
     private boolean isDone;
