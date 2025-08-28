@@ -61,8 +61,7 @@ public class CommandParser {
                     throw new WeeweeException("Baka only valid task number is allowed!\n");
                 }
 
-                Task deleted = tasks.get(deletenumber - 1);
-                tasks.remove(deletenumber - 1);
+                Task deleted = tasks.remove(deletenumber - 1);
                 ui.showDelete(deleted, tasks);
                 break;
 
