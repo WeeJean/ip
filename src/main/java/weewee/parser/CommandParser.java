@@ -1,5 +1,7 @@
 package weewee.parser;
 
+import java.util.ArrayList;
+
 import weewee.exception.WeeweeException;
 import weewee.task.Event;
 import weewee.task.Task;
@@ -11,7 +13,7 @@ import weewee.ui.Ui;
 public class CommandParser {
 
     public enum Command {
-        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, UNIDENTIFIED
+        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, FIND, UNIDENTIFIED
     }
 
     public static Command getCommand(String input) {
@@ -22,6 +24,7 @@ public class CommandParser {
         if (input.startsWith("todo")) return Command.TODO;
         if (input.startsWith("deadline")) return Command.DEADLINE;
         if (input.startsWith("event")) return Command.EVENT;
+        if (input.startsWith("find")) return Command.FIND;
         return Command.UNIDENTIFIED;
     }
 
@@ -96,6 +99,30 @@ public class CommandParser {
             Task event = new Event(eventsplit[1].trim(), eventsplit[2].trim(), eventsplit[3].trim());
             tasks.add(event);
             ui.showEvent(event, tasks);
+            break;
+
+        case FIND:
+            String[] findsplit = input.split("\\s+");
+            if (findsplit.length < 2) {
+                throw new WeeweeException("Find format is wrong baka >v<! e.g find <keyword>\n");
+            }
+
+            TaskList matchingTasks = new TaskList(new ArrayList<>());
+
+            for (int i = 0; i< tasks.size(); i++) {
+                boolean matching = true;
+                for (int j = 1; j < findsplit.length; j++) {
+                    if (!tasks.get(i).getTaskName().matches(".*\\b" + findsplit[j].toLowerCase() + "\\b.*")) {
+                        matching = false;
+                        break;
+                    }
+                }
+                if (matching) {
+                    matchingTasks.add(tasks.get(i));
+                }
+            }
+
+            ui.showFind(matchingTasks);
             break;
 
         case UNIDENTIFIED:

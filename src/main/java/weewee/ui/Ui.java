@@ -99,4 +99,21 @@ public class Ui {
         System.out.println();
     }
 
+    /**
+     * Displays the list of tasks that match the keywords
+     *
+     * @param tasks The task list to display.
+     */
+    public void showFind(TaskList tasks) {
+        if (tasks.isEmpty()) {
+            System.out.println("No matching tasks found baka >v<\n");
+        } else {
+            System.out.println("Here are the matching tasks in your list:\n");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.printf("%d. %s\n", i + 1, tasks.get(i));
+            }
+            System.out.println();
+        }
+    }
+
 }
