@@ -1,9 +1,17 @@
 package weewee.task;
 
+import weewee.exception.WeeweeException;
+
+/** Represents a Task with name and done status. */
 public class Task {
     private boolean isDone;
     private final String taskName;
 
+    /**
+     * Constructs a Task with the given details.
+     *
+     * @param taskName Name/description of the task.
+     */
     public Task(String taskName) {
         this.isDone = false;
         this.taskName = taskName;
