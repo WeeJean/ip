@@ -1,8 +1,9 @@
 package weewee.task;
 
+import java.time.LocalDateTime;
+
 import weewee.exception.WeeweeException;
 import weewee.parser.DateParser;
-import java.time.LocalDateTime;
 
 /** Represents an event task with a start and end date/time. */
 public class Event extends Task {
@@ -71,7 +72,8 @@ public class Event extends Task {
      */
     @Override
     public String toString() {
-        String s = String.format("[E]%s %s (from: %s to: %s)", this.getIsdone(), super.getTaskName(), getStart(), getEnd());
+        String s = String.format("[E]%s %s (from: %s to: %s)",
+                this.getIsdone(), super.getTaskName(), getStart(), getEnd());
         return s;
     }
 }

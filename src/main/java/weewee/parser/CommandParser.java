@@ -3,11 +3,11 @@ package weewee.parser;
 import java.util.ArrayList;
 
 import weewee.exception.WeeweeException;
+import weewee.task.Deadline;
 import weewee.task.Event;
 import weewee.task.Task;
 import weewee.task.TaskList;
 import weewee.task.ToDo;
-import weewee.task.Deadline;
 import weewee.ui.Ui;
 
 public class CommandParser {
@@ -17,14 +17,30 @@ public class CommandParser {
     }
 
     public static Command getCommand(String input) {
-        if (input.equals("list")) return Command.LIST;
-        if (input.startsWith("mark")) return Command.MARK;
-        if (input.startsWith("unmark")) return Command.UNMARK;
-        if (input.startsWith("delete")) return Command.DELETE;
-        if (input.startsWith("todo")) return Command.TODO;
-        if (input.startsWith("deadline")) return Command.DEADLINE;
-        if (input.startsWith("event")) return Command.EVENT;
-        if (input.startsWith("find")) return Command.FIND;
+        if (input.equals("list")) {
+            return Command.LIST;
+        }
+        if (input.startsWith("mark")) {
+            return Command.MARK;
+        }
+        if (input.startsWith("unmark")) {
+            return Command.UNMARK;
+        }
+        if (input.startsWith("delete")) {
+            return Command.DELETE;
+        }
+        if (input.startsWith("todo")) {
+            return Command.TODO;
+        }
+        if (input.startsWith("deadline")) {
+            return Command.DEADLINE;
+        }
+        if (input.startsWith("event")) {
+            return Command.EVENT;
+        }
+        if (input.startsWith("find")) {
+            return Command.FIND;
+        }
         return Command.UNIDENTIFIED;
     }
 
@@ -82,7 +98,8 @@ public class CommandParser {
         case DEADLINE:
             String[] deadlinesplit = input.split("deadline | /by ");
             if (deadlinesplit.length < 3) {
-                throw new WeeweeException("Deadline format is wrong baka >v< ! e.g deadline <activity> /by <YYYY-MM-DD HHmm>\n");
+                throw new WeeweeException("Deadline format is wrong baka >v< !"
+                        + " e.g deadline <activity> /by <YYYY-MM-DD HHmm>\n");
             }
 
             Task deadline = new Deadline(deadlinesplit[1].trim(), deadlinesplit[2].trim());
@@ -93,7 +110,8 @@ public class CommandParser {
         case EVENT:
             String[] eventsplit = input.split("event | /from | /to ");
             if (eventsplit.length < 4) {
-                throw new WeeweeException("Event format is wrong baka >v<! e.g event <activity> /from <YYYY-MM-DD HHmm> /to <YYYY-MM-DD HHmm>\n");
+                throw new WeeweeException("Event format is wrong baka >v<!"
+                        + " e.g event <activity> /from <YYYY-MM-DD HHmm> /to <YYYY-MM-DD HHmm>\n");
             }
 
             Task event = new Event(eventsplit[1].trim(), eventsplit[2].trim(), eventsplit[3].trim());
@@ -109,7 +127,7 @@ public class CommandParser {
 
             TaskList matchingTasks = new TaskList(new ArrayList<>());
 
-            for (int i = 0; i< tasks.size(); i++) {
+            for (int i = 0; i < tasks.size(); i++) {
                 boolean matching = true;
                 for (int j = 1; j < findsplit.length; j++) {
                     if (!tasks.get(i).getTaskName().matches(".*\\b" + findsplit[j].toLowerCase() + "\\b.*")) {
@@ -125,7 +143,7 @@ public class CommandParser {
             ui.showFind(matchingTasks);
             break;
 
-        case UNIDENTIFIED:
+        default:
             throw new WeeweeException("Sorry, I don't understand what that means </3\n");
         }
     }

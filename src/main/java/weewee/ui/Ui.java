@@ -1,9 +1,9 @@
 package weewee.ui;
 
-import weewee.task.TaskList;
-import weewee.task.Task;
-
 import java.util.Scanner;
+
+import weewee.task.Task;
+import weewee.task.TaskList;
 
 /**
  * Handles user interaction for the Weewee chatbot.
@@ -13,7 +13,7 @@ public class Ui {
 
     /** Prints a greeting message when the chatbot starts. */
     public void showGreet() {
-            System.out.println("Hello! I'm Weewee\nWhat can I do for you?\n");
+        System.out.println("Hello! I'm Weewee\nWhat can I do for you?\n");
     }
 
     /** Prints a goodbye message when the chatbot ends. */
@@ -72,7 +72,8 @@ public class Ui {
      * @param tasks The updated task list.
      */
     public void showDelete(Task task, TaskList tasks) {
-        System.out.printf("Noted. I've removed this task:\n%s\nNow you have %d tasks in the list.\n", task, tasks.size());
+        System.out.printf("Noted. I've removed this task:\n%s\nNow you have %d tasks in the list.\n",
+                task, tasks.size());
         System.out.println();
     }
 
@@ -83,19 +84,22 @@ public class Ui {
      * @param tasks The updated task list.
      */
     public void showTodo(Task task, TaskList tasks) {
-        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", task, tasks.size());
+        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n",
+                task, tasks.size());
         System.out.println();
     }
 
     /** Displays a message confirming that a deadline task has been added. */
     public void showDeadline(Task task, TaskList tasks) {
-        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", task, tasks.size());
+        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n",
+                task, tasks.size());
         System.out.println();
     }
 
     /** Displays a message confirming that an event task has been added. */
     public void showEvent(Task task, TaskList tasks) {
-        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n", task, tasks.size());
+        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n",
+                task, tasks.size());
         System.out.println();
     }
 
