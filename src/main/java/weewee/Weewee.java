@@ -1,10 +1,10 @@
 package weewee;
 
+import weewee.exception.WeeweeException;
+import weewee.parser.CommandParser;
 import weewee.storage.Storage;
 import weewee.task.TaskList;
 import weewee.ui.Ui;
-import weewee.parser.CommandParser;
-import weewee.exception.WeeweeException;
 
 /**
  * The main entry point for the Weewee chatbot application.
@@ -35,7 +35,7 @@ public class Weewee {
         ui.showGreet();
         String input = ui.readNextCommand();
 
-        while(!input.equals("bye")) {
+        while (!input.equals("bye")) {
             try {
                 CommandParser.parseAndExecute(input, tasks, ui);
             } catch (WeeweeException e) {

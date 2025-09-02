@@ -24,7 +24,7 @@ public class Task {
     }
 
     public String getIsdone() {
-        if(isDone) {
+        if (isDone) {
             return "[X]";
         } else {
             return "[ ]";
