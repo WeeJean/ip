@@ -16,6 +16,7 @@ public class Weewee {
     private final Storage storage;
     private final TaskList tasks;
     private final Ui ui;
+    private CommandParser.Command commandType;
 
     /**
      * Creates a new instance of the chatbot with a file path for storing tasks.
@@ -32,22 +33,47 @@ public class Weewee {
      * Starts the chatbot loop and terminate after bye command
      */
     public void run() {
-        ui.showGreet();
+        System.out.print(ui.showGreet());
         String input = ui.readNextCommand();
 
         while (!input.equals("bye")) {
             try {
-                CommandParser.parseAndExecute(input, tasks, ui);
+                System.out.print(CommandParser.parseAndExecute(input, tasks, ui));
             } catch (WeeweeException e) {
                 System.out.println(e.getMessage());
             } catch (Exception e) {
-                System.out.println("OOPS Something went wrong: " + e.getMessage());
+                System.out.print(ui.showError());
             }
-
             input = ui.readNextCommand();
         }
         storage.save(tasks);
-        ui.showBye();
+        System.out.print(ui.showBye());
+    }
+
+    /**
+     * Generates a response for the user's chat message.
+     *
+     * @param input The user's input string.
+     * @return The chatbot's response as a string.
+     */
+    public String getResponse(String input) {
+        if (input.trim().equalsIgnoreCase("bye")) {
+            storage.save(tasks);
+            return ui.showBye();
+        }
+        try {
+            this.commandType = CommandParser.getCommand(input);
+            // Use parser to process command and return output instead of printing
+            return CommandParser.parseAndExecute(input, tasks, ui);
+        } catch (WeeweeException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return ui.showError();
+        }
+    }
+
+    public CommandParser.Command getCommandType() {
+        return commandType;
     }
 
     /**

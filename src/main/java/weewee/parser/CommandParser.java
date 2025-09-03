@@ -44,12 +44,11 @@ public class CommandParser {
         return Command.UNIDENTIFIED;
     }
 
-    public static void parseAndExecute(String input, TaskList tasks, Ui ui) throws WeeweeException {
+    public static String parseAndExecute(String input, TaskList tasks, Ui ui) throws WeeweeException {
         Command cmd = getCommand(input);
         switch (cmd) {
         case LIST:
-            ui.showList(tasks);
-            break;
+            return ui.showList(tasks);
 
         case MARK:
             String[] marksplit = input.split(" ");
@@ -59,8 +58,7 @@ public class CommandParser {
             }
 
             tasks.get(marknumber - 1).setDone();
-            ui.showMark(tasks.get(marknumber - 1));
-            break;
+            return ui.showMark(tasks.get(marknumber - 1));
 
         case UNMARK:
             String[] unmarksplit = input.split(" ");
@@ -70,8 +68,7 @@ public class CommandParser {
             }
 
             tasks.get(unmarknumber - 1).setUndone();
-            ui.showUnmark(tasks.get(unmarknumber - 1));
-            break;
+            return ui.showUnmark(tasks.get(unmarknumber - 1));
 
         case DELETE:
             String[] deletesplit = input.split(" ");
@@ -81,8 +78,7 @@ public class CommandParser {
             }
 
             Task deleted = tasks.remove(deletenumber - 1);
-            ui.showDelete(deleted, tasks);
-            break;
+            return ui.showDelete(deleted, tasks);
 
         case TODO:
             String[] todosplit = input.split("todo ");
@@ -92,8 +88,7 @@ public class CommandParser {
 
             Task todo = new ToDo(todosplit[1].trim());
             tasks.add(todo);
-            ui.showTodo(todo, tasks);
-            break;
+            return ui.showTodo(todo, tasks);
 
         case DEADLINE:
             String[] deadlinesplit = input.split("deadline | /by ");
@@ -104,8 +99,7 @@ public class CommandParser {
 
             Task deadline = new Deadline(deadlinesplit[1].trim(), deadlinesplit[2].trim());
             tasks.add(deadline);
-            ui.showDeadline(deadline, tasks);
-            break;
+            return ui.showDeadline(deadline, tasks);
 
         case EVENT:
             String[] eventsplit = input.split("event | /from | /to ");
@@ -116,8 +110,7 @@ public class CommandParser {
 
             Task event = new Event(eventsplit[1].trim(), eventsplit[2].trim(), eventsplit[3].trim());
             tasks.add(event);
-            ui.showEvent(event, tasks);
-            break;
+            return ui.showEvent(event, tasks);
 
         case FIND:
             String[] findsplit = input.split("\\s+");
@@ -140,8 +133,7 @@ public class CommandParser {
                 }
             }
 
-            ui.showFind(matchingTasks);
-            break;
+            return ui.showFind(matchingTasks);
 
         default:
             throw new WeeweeException("Sorry, I don't understand what that means </3\n");
