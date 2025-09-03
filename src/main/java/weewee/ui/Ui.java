@@ -12,13 +12,18 @@ public class Ui {
     private final Scanner sc = new Scanner(System.in);
 
     /** Prints a greeting message when the chatbot starts. */
-    public void showGreet() {
-        System.out.println("Hello! I'm Weewee\nWhat can I do for you?\n");
+    public String showGreet() {
+        return "Hello! I'm Weewee\nWhat can I do for you?\n";
     }
 
     /** Prints a goodbye message when the chatbot ends. */
-    public void showBye() {
-        System.out.println("Bye. Hope to see you again soon! smoochsmooch <3");
+    public String showBye() {
+        return "Bye. Hope to see you again soon! smoochsmooch <3\n";
+    }
+
+    /** Prints an error message when invalid input is detected. */
+    public String showError() {
+        return "Command requires more input info!\n";
     }
 
     /** @return The raw input string typed by the user. */
@@ -31,16 +36,16 @@ public class Ui {
      *
      * @param tasks The task list to display.
      */
-    public void showList(TaskList tasks) {
+    public String showList(TaskList tasks) {
         if (tasks.isEmpty()) {
-            System.out.println("Your list is empty UwU!\n");
-            return;
+            return "Your list is empty UwU!\n";
         }
-        System.out.println("Here are the tasks in your list:\n");
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.printf("%d. %s\n", i + 1, tasks.get(i));
+            sb.append(String.format("%d. %s%n", i + 1, tasks.get(i)));
         }
-        System.out.println();
+        sb.append('\n');
+        return sb.toString();
     }
 
     /**
@@ -48,10 +53,8 @@ public class Ui {
      *
      * @param task The task that was marked.
      */
-    public void showMark(Task task) {
-        System.out.println("Nice! I've marked this task as done:\n");
-        System.out.println(task);
-        System.out.println();
+    public String showMark(Task task) {
+        return "Nice! I've marked this task as done:\n" + task + "\n";
     }
 
     /**
@@ -59,10 +62,8 @@ public class Ui {
      *
      * @param task The task that was unmarked.
      */
-    public void showUnmark(Task task) {
-        System.out.println("OK, I've marked this task as not done yet:\n");
-        System.out.println(task);
-        System.out.println();
+    public String showUnmark(Task task) {
+        return "OK, I've marked this task as not done yet:\n" + task + "\n";
     }
 
     /**
@@ -71,10 +72,10 @@ public class Ui {
      * @param task  The task that was deleted.
      * @param tasks The updated task list.
      */
-    public void showDelete(Task task, TaskList tasks) {
-        System.out.printf("Noted. I've removed this task:\n%s\nNow you have %d tasks in the list.\n",
+    public String showDelete(Task task, TaskList tasks) {
+        return String.format(
+                "Noted. I've removed this task:%n%s%nNow you have %d tasks in the list.%n",
                 task, tasks.size());
-        System.out.println();
     }
 
     /**
@@ -83,24 +84,24 @@ public class Ui {
      * @param task  The task that was added.
      * @param tasks The updated task list.
      */
-    public void showTodo(Task task, TaskList tasks) {
-        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n",
+    public String showTodo(Task task, TaskList tasks) {
+        return String.format(
+                "Got it. I've added this task:%n%s%nNow you have %d tasks in the list.%n",
                 task, tasks.size());
-        System.out.println();
     }
 
     /** Displays a message confirming that a deadline task has been added. */
-    public void showDeadline(Task task, TaskList tasks) {
-        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n",
+    public String showDeadline(Task task, TaskList tasks) {
+        return String.format(
+                "Got it. I've added this task:%n%s%nNow you have %d tasks in the list.%n",
                 task, tasks.size());
-        System.out.println();
     }
 
     /** Displays a message confirming that an event task has been added. */
-    public void showEvent(Task task, TaskList tasks) {
-        System.out.printf("Got it. I've added this task:\n%s\nNow you have %d tasks in the list.\n",
+    public String showEvent(Task task, TaskList tasks) {
+        return String.format(
+                "Got it. I've added this task:%n%s%nNow you have %d tasks in the list.%n",
                 task, tasks.size());
-        System.out.println();
     }
 
     /**
@@ -108,16 +109,15 @@ public class Ui {
      *
      * @param tasks The task list to display.
      */
-    public void showFind(TaskList tasks) {
+    public String showFind(TaskList tasks) {
         if (tasks.isEmpty()) {
-            System.out.println("No matching tasks found baka >v<\n");
-        } else {
-            System.out.println("Here are the matching tasks in your list:\n");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.printf("%d. %s\n", i + 1, tasks.get(i));
-            }
-            System.out.println();
+            return "No matching tasks found baka >v<\n\n";
         }
+        StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append(String.format("%d. %s%n", i + 1, tasks.get(i)));
+        }
+        sb.append('\n');
+        return sb.toString();
     }
-
 }
