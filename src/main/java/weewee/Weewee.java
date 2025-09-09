@@ -58,6 +58,7 @@ public class Weewee {
      */
     public String getResponse(String input) {
         if (input.trim().equalsIgnoreCase("bye")) {
+            this.commandType = CommandParser.getCommand(input);
             storage.save(tasks);
             return ui.showBye();
         }

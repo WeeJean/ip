@@ -13,7 +13,7 @@ import weewee.ui.Ui;
 public class CommandParser {
 
     public enum Command {
-        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, FIND, UNIDENTIFIED
+        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, FIND, BYE, UNIDENTIFIED
     }
 
     public static Command getCommand(String input) {
@@ -40,6 +40,9 @@ public class CommandParser {
         }
         if (input.startsWith("find")) {
             return Command.FIND;
+        }
+        if (input.startsWith("bye")) {
+            return Command.BYE;
         }
         return Command.UNIDENTIFIED;
     }
