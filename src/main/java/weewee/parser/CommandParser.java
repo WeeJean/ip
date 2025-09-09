@@ -140,13 +140,12 @@ public class CommandParser {
             return ui.showFind(matchingTasks);
 
         case SORT:
-            String[] sortsplit = input.split("\\s+");
+            String[] sortsplit = input.split("\\s+", 2);
             if (sortsplit.length < 2) {
                 throw new WeeweeException(ui.showSortError());
             }
 
-            String criteria = String.join(" ", java.util.Arrays.copyOfRange(sortsplit, 1, sortsplit.length))
-                    .toLowerCase();
+            String criteria = sortsplit[1].toLowerCase();
 
             TaskList sortedTasks;
 
