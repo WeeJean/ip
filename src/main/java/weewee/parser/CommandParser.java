@@ -13,7 +13,7 @@ import weewee.ui.Ui;
 public class CommandParser {
 
     public enum Command {
-        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, FIND, BYE, UNIDENTIFIED
+        LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, FIND, SORT, BYE, UNIDENTIFIED
     }
 
     public static Command getCommand(String input) {
@@ -41,6 +41,9 @@ public class CommandParser {
         if (input.startsWith("find")) {
             return Command.FIND;
         }
+        if (input.startsWith("sort")) {
+            return Command.SORT;
+        }
         if (input.startsWith("bye")) {
             return Command.BYE;
         }
@@ -57,7 +60,7 @@ public class CommandParser {
             String[] marksplit = input.split(" ");
             int marknumber = Integer.parseInt(marksplit[1]);
             if (marksplit.length != 2 || marknumber < 1 || marknumber > tasks.size()) {
-                throw new WeeweeException("Baka only valid task number is allowed!\n");
+                throw new WeeweeException(ui.showIndexError());
             }
 
             tasks.get(marknumber - 1).setDone();
@@ -67,7 +70,7 @@ public class CommandParser {
             String[] unmarksplit = input.split(" ");
             int unmarknumber = Integer.parseInt(unmarksplit[1]);
             if (unmarksplit.length != 2 || unmarknumber < 1 || unmarknumber > tasks.size()) {
-                throw new WeeweeException("Baka only valid task number is allowed!\n");
+                throw new WeeweeException(ui.showIndexError());
             }
 
             tasks.get(unmarknumber - 1).setUndone();
@@ -77,7 +80,7 @@ public class CommandParser {
             String[] deletesplit = input.split(" ");
             int deletenumber = Integer.parseInt(deletesplit[1]);
             if (deletesplit.length != 2 || deletenumber < 1 || deletenumber > tasks.size()) {
-                throw new WeeweeException("Baka only valid task number is allowed!\n");
+                throw new WeeweeException(ui.showIndexError());
             }
 
             Task deleted = tasks.remove(deletenumber - 1);
@@ -86,7 +89,7 @@ public class CommandParser {
         case TODO:
             String[] todosplit = input.split("todo ");
             if (todosplit.length < 2) {
-                throw new WeeweeException("toDo format is wrong baka >v< ! e.g todo <activity>\n");
+                throw new WeeweeException(ui.showTodoError());
             }
 
             Task todo = new ToDo(todosplit[1].trim());
@@ -96,8 +99,7 @@ public class CommandParser {
         case DEADLINE:
             String[] deadlinesplit = input.split("deadline | /by ");
             if (deadlinesplit.length < 3) {
-                throw new WeeweeException("Deadline format is wrong baka >v< !"
-                        + " e.g deadline <activity> /by <YYYY-MM-DD HHmm>\n");
+                throw new WeeweeException(ui.showDeadlineError());
             }
 
             Task deadline = new Deadline(deadlinesplit[1].trim(), deadlinesplit[2].trim());
@@ -107,8 +109,7 @@ public class CommandParser {
         case EVENT:
             String[] eventsplit = input.split("event | /from | /to ");
             if (eventsplit.length < 4) {
-                throw new WeeweeException("Event format is wrong baka >v<!"
-                        + " e.g event <activity> /from <YYYY-MM-DD HHmm> /to <YYYY-MM-DD HHmm>\n");
+                throw new WeeweeException(ui.showEventError());
             }
 
             Task event = new Event(eventsplit[1].trim(), eventsplit[2].trim(), eventsplit[3].trim());
@@ -118,7 +119,7 @@ public class CommandParser {
         case FIND:
             String[] findsplit = input.split("\\s+");
             if (findsplit.length < 2) {
-                throw new WeeweeException("Find format is wrong baka >v<! e.g find <keyword>\n");
+                throw new WeeweeException(ui.showFindError());
             }
 
             TaskList matchingTasks = new TaskList(new ArrayList<>());
@@ -137,6 +138,52 @@ public class CommandParser {
             }
 
             return ui.showFind(matchingTasks);
+
+        case SORT:
+            String[] sortsplit = input.split("\\s+");
+            if (sortsplit.length < 2) {
+                throw new WeeweeException(ui.showSortError());
+            }
+
+            String criteria = String.join(" ", java.util.Arrays.copyOfRange(sortsplit, 1, sortsplit.length))
+                    .toLowerCase();
+
+            TaskList sortedTasks;
+
+            switch (criteria) {
+            case "deadline":
+                sortedTasks = new TaskList(
+                        tasks.getAll().stream()
+                                .filter(t -> t instanceof Deadline)
+                                .sorted((t1, t2) -> ((Deadline) t1).getRawDate().compareTo(((Deadline) t2)
+                                        .getRawDate()))
+                                .collect(java.util.stream.Collectors.toCollection(ArrayList::new))
+                );
+                break;
+
+            case "event start":
+                sortedTasks = new TaskList(
+                        tasks.getAll().stream()
+                                .filter(t -> t instanceof Event)
+                                .sorted((t1, t2) -> ((Event) t1).getRawStart().compareTo(((Event) t2).getRawStart()))
+                                .collect(java.util.stream.Collectors.toCollection(ArrayList::new))
+                );
+                break;
+
+            case "event end":
+                sortedTasks = new TaskList(
+                        tasks.getAll().stream()
+                                .filter(t -> t instanceof Event)
+                                .sorted((t1, t2) -> ((Event) t1).getRawEnd().compareTo(((Event) t2).getRawEnd()))
+                                .collect(java.util.stream.Collectors.toCollection(ArrayList::new))
+                );
+                break;
+
+            default:
+                throw new WeeweeException(ui.showSortError());
+            }
+
+            return ui.showList(sortedTasks);
 
         default:
             throw new WeeweeException("Sorry, I don't understand what that means </3\n");

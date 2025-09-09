@@ -120,4 +120,31 @@ public class Ui {
         sb.append('\n');
         return sb.toString();
     }
+
+    public String showSortError() {
+        return "Baka invalid sort type! Use sort deadline | sort event start | sort event end\n";
+    }
+
+    public String showFindError() {
+        return "Find format is wrong baka >v<! e.g find <keyword>\n";
+    }
+
+    public String showEventError() {
+        return "Event format is wrong baka >v<!"
+                + " e.g event <activity> /from <YYYY-MM-DD HHmm> /to <YYYY-MM-DD HHmm>\n";
+    }
+
+    public String showDeadlineError() {
+        return "Deadline format is wrong baka >v< !"
+                + " e.g deadline <activity> /by <YYYY-MM-DD HHmm>\n";
+    }
+
+    public String showTodoError() {
+        return "toDo format is wrong baka >v< ! e.g todo <activity>\n";
+    }
+
+    public String showIndexError() {
+        return "Baka only valid task number is allowed!\n";
+    }
+
 }
