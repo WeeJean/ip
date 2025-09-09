@@ -55,21 +55,28 @@ public class MainWindow extends AnchorPane {
         String input = userInput.getText();
         String response = weewee.getResponse(input);
         CommandParser.Command commandType = weewee.getCommandType();
+
         if (input.equalsIgnoreCase("bye")) {
-            dialogContainer.getChildren().addAll(
-                    DialogBox.getUserDialog(input, userImage),
-                    DialogBox.getWeeweeDialog(response, weeweeImage2, commandType)
-            );
-            PauseTransition delay = new PauseTransition(Duration.seconds(2));
-            delay.setOnFinished(event -> Platform.exit());
-            delay.play();
+            addDialogPair(input, response, commandType, weeweeImage2);
+            int delayTime = 2;
+            scheduleExit(delayTime);
         } else {
-            dialogContainer.getChildren().addAll(
-                    DialogBox.getUserDialog(input, userImage),
-                    DialogBox.getWeeweeDialog(response, weeweeImage, commandType)
-            );
+            addDialogPair(input, response, commandType, weeweeImage);
         }
         userInput.clear();
+    }
+
+    private boolean addDialogPair(String input, String response, CommandParser.Command commandType, Image weeweeImage) {
+        return dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog(input, userImage),
+                DialogBox.getWeeweeDialog(response, weeweeImage, commandType)
+        );
+    }
+
+    private static void scheduleExit(int delayTime) {
+        PauseTransition delay = new PauseTransition(Duration.seconds(delayTime));
+        delay.setOnFinished(event -> Platform.exit());
+        delay.play();
     }
 }
 
