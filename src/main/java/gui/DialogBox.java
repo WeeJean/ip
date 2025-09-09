@@ -55,6 +55,7 @@ public class DialogBox extends HBox {
     }
 
     private void changeDialogStyle(CommandParser.Command commandType) {
+        assert commandType != null : "Command type must not be null when changing dialog style";
         switch(commandType) {
         case TODO:
         case DEADLINE:
