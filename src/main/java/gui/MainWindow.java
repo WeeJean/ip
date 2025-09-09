@@ -51,6 +51,7 @@ public class MainWindow extends AnchorPane {
      */
     @FXML
     private void handleUserInput() {
+        assert weewee != null : "Weewee instance should be set before handling input";
         String input = userInput.getText();
         String response = weewee.getResponse(input);
         CommandParser.Command commandType = weewee.getCommandType();
