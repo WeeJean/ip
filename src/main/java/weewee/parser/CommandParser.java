@@ -10,12 +10,24 @@ import weewee.task.TaskList;
 import weewee.task.ToDo;
 import weewee.ui.Ui;
 
+/**
+ * Parses user input into commands and executes them against a {@link TaskList}.
+ */
 public class CommandParser {
 
+    /**
+     * Supported command types recognized by the parser.
+     */
     public enum Command {
         LIST, MARK, UNMARK, DELETE, TODO, DEADLINE, EVENT, FIND, SORT, BYE, UNIDENTIFIED
     }
 
+    /**
+     * Determines the command type from the raw input.
+     *
+     * @param input raw user input
+     * @return the matching {@link Command}, or {@code UNIDENTIFIED} if none match
+     */
     public static Command getCommand(String input) {
         if (input.equals("list")) {
             return Command.LIST;
@@ -50,6 +62,15 @@ public class CommandParser {
         return Command.UNIDENTIFIED;
     }
 
+    /**
+     * Parses the input and performs the corresponding action.
+     *
+     * @param input raw user input
+     * @param tasks mutable task list to operate on
+     * @param ui    UI helper for formatted responses
+     * @return a user-facing message describing the result
+     * @throws WeeweeException if the input is invalid or out of bounds
+     */
     public static String parseAndExecute(String input, TaskList tasks, Ui ui) throws WeeweeException {
         Command cmd = getCommand(input);
         switch (cmd) {

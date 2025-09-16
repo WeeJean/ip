@@ -1,8 +1,9 @@
 package weewee.task;
 
+import java.time.LocalDateTime;
+
 import weewee.exception.WeeweeException;
 import weewee.parser.DateParser;
-import java.time.LocalDateTime;
 
 /** Represents a deadline task with the due date/time. */
 public class Deadline extends Task {
@@ -18,7 +19,7 @@ public class Deadline extends Task {
     public Deadline(String taskName, String dateTime) throws WeeweeException {
         super(taskName);
         try {
-            this.dateTime = DateParser.dateParse(dateTime);  // may throw DateTimeParseException
+            this.dateTime = DateParser.dateParse(dateTime);
         } catch (Exception e) {
             throw new WeeweeException("Deadline date/time format is wrong baka >v<! Use YYYY-MM-DD HHmm");
         }
@@ -50,7 +51,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        String s = String.format("[D]%s %s (by: %s)", this.getIsdone(), super.getTaskName(), getDate());
-        return s;
+        return String.format("[D]%s %s (by: %s)", this.getIsdone(), super.getTaskName(), getDate());
     }
 }

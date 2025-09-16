@@ -121,28 +121,58 @@ public class Ui {
         return sb.toString();
     }
 
+    /**
+     * Returns an error message when the sort type is invalid.
+     *
+     * @return The error string.
+     */
     public String showSortError() {
         return "Baka invalid sort type! Use sort deadline | sort event start | sort event end\n";
     }
 
+    /**
+     * Returns an error message when the find command is incorrectly formatted.
+     *
+     * @return The error string.
+     */
     public String showFindError() {
         return "Find format is wrong baka >v<! e.g find <keyword>\n";
     }
 
+    /**
+     * Returns an error message when the event command is incorrectly formatted.
+     *
+     * @return The error string.
+     */
     public String showEventError() {
         return "Event format is wrong baka >v<!"
                 + " e.g event <activity> /from <YYYY-MM-DD HHmm> /to <YYYY-MM-DD HHmm>\n";
     }
 
+    /**
+     * Returns an error message when the deadline command is incorrectly formatted.
+     *
+     * @return The error string.
+     */
     public String showDeadlineError() {
         return "Deadline format is wrong baka >v< !"
                 + " e.g deadline <activity> /by <YYYY-MM-DD HHmm>\n";
     }
 
+    /**
+     * Returns an error message when the todo command is incorrectly formatted.
+     *
+     * @return The error string.
+     */
     public String showTodoError() {
         return "toDo format is wrong baka >v< ! e.g todo <activity>\n";
     }
 
+    /**
+     * Returns an error message when an invalid task index is entered.
+     *
+     * @return The error string.
+     */
     public String showIndexError() {
         return "Baka only valid task number is allowed!\n";
     }

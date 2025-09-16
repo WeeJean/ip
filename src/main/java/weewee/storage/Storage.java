@@ -23,7 +23,6 @@ public class Storage {
     }
 
     // opening up data into array at the start of the chatbot
-    @SuppressWarnings("checkstyle:SingleSpaceSeparator")
     public TaskList load() {
         ArrayList<Task> tasks = new ArrayList<>();
         try {
@@ -102,12 +101,10 @@ public class Storage {
     private String formatTask(Task t) {
         if (t instanceof ToDo) {
             return "T | " + (t.getIsdone().equals("[X]") ? "1" : "0") + " | " + t.getTaskName();
-        } else if (t instanceof Deadline) {
-            Deadline d = (Deadline) t;
+        } else if (t instanceof Deadline d) {
             return "D | " + (d.getIsdone().equals("[X]") ? "1" : "0") + " | " + d.getTaskName()
                     + " | " + d.getRawDate();
-        } else if (t instanceof Event) {
-            Event e = (Event) t;
+        } else if (t instanceof Event e) {
             return "E | " + (e.getIsdone().equals("[X]") ? "1" : "0") + " | " + e.getTaskName()
                     + " | " + e.getRawStart() + " | " + e.getRawEnd();
         }

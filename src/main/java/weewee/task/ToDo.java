@@ -14,7 +14,6 @@ public class ToDo extends Task {
 
     @Override
     public String toString() {
-        String s = String.format("[T]%s %s", this.getIsdone(), super.getTaskName());
-        return s;
+        return String.format("[T]%s %s", this.getIsdone(), super.getTaskName());
     }
 }

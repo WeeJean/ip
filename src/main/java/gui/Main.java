@@ -15,7 +15,7 @@ import weewee.ui.Ui;
  */
 public class Main extends Application {
 
-    private Weewee weewee = new Weewee("./data/weewee.txt");
+    private final Weewee weewee = new Weewee("./data/weewee.txt");
 
     @Override
     public void start(Stage stage) {

@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.Objects;
+
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -28,9 +30,12 @@ public class MainWindow extends AnchorPane {
     private Button sendButton;
 
     private Weewee weewee;
-    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser2.png"));
-    private final Image weeweeImage = new Image(this.getClass().getResourceAsStream("/images/DaWeewee.png"));
-    private final Image weeweeImage2 = new Image(this.getClass().getResourceAsStream("/images/DaWeewee2.png"));
+    private final Image userImage = new Image(Objects.requireNonNull(this.getClass()
+            .getResourceAsStream("/images/DaUser2.png")));
+    private final Image weeweeImage = new Image(Objects.requireNonNull(this.getClass()
+            .getResourceAsStream("/images/DaWeewee.png")));
+    private final Image weeweeImage2 = new Image(Objects.requireNonNull(this.getClass()
+            .getResourceAsStream("/images/DaWeewee2.png")));
 
     @FXML
     public void initialize() {
@@ -66,8 +71,8 @@ public class MainWindow extends AnchorPane {
         userInput.clear();
     }
 
-    private boolean addDialogPair(String input, String response, CommandParser.Command commandType, Image weeweeImage) {
-        return dialogContainer.getChildren().addAll(
+    private void addDialogPair(String input, String response, CommandParser.Command commandType, Image weeweeImage) {
+        dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
                 DialogBox.getWeeweeDialog(response, weeweeImage, commandType)
         );

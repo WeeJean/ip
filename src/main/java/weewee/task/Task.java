@@ -37,7 +37,6 @@ public class Task {
 
     @Override
     public String toString() {
-        String s = getIsdone() + " " + taskName;
-        return s;
+        return getIsdone() + " " + taskName;
     }
 }
