@@ -125,14 +125,14 @@ public class CommandParser {
             TaskList matchingTasks = new TaskList(new ArrayList<>());
 
             for (int i = 0; i < tasks.size(); i++) {
-                boolean matching = true;
+                boolean isMatching = true;
                 for (int j = 1; j < findsplit.length; j++) {
                     if (!tasks.get(i).getTaskName().matches(".*\\b" + findsplit[j].toLowerCase() + "\\b.*")) {
-                        matching = false;
+                        isMatching = false;
                         break;
                     }
                 }
-                if (matching) {
+                if (isMatching) {
                     matchingTasks.add(tasks.get(i));
                 }
             }
