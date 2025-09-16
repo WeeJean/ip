@@ -1,15 +1,17 @@
 package weewee.parser;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.ArrayList;
+
+import org.junit.jupiter.api.Test;
+
 import weewee.exception.WeeweeException;
 import weewee.task.Task;
 import weewee.task.TaskList;
 import weewee.ui.Ui;
 
-import java.util.ArrayList;
-
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CommandParserTest {
     @Test
